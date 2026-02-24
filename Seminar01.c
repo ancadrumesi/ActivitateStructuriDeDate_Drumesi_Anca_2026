@@ -21,6 +21,7 @@ struct Student initializare(int id, int grupa, char* nume, float medie, char ini
 	s.initiala = initiala;
 	return s;
 	//initializare structura 
+
 }
 
 void afisare(struct Student s) {
