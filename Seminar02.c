@@ -69,7 +69,6 @@ void copiazaTelefoaneScumpe(struct  Telefon* vector, char nrElemente, float pret
 	*vectorNou = malloc(*dimensiune * sizeof(struct Telefon));
 	for (int i = 0, j = 0; i < nrElemente; i++) {
 		if (vector[i].pret >= pretMinim) {
-			i += 1;
 			(*vectorNou)[j] = copiazaTelefon(vector[i]);
 			j += 1;
 		}
@@ -78,14 +77,17 @@ void copiazaTelefoaneScumpe(struct  Telefon* vector, char nrElemente, float pret
 	//OPERATORRUL INDEX = DEPLASARE SI REFERENTIERE 
 }
 
-struct  Telefon getPrimulElementConditionat(struct  Telefon* vector, int nrElemente, const char* conditie) {
+struct Telefon getPrimulElementConditionat(struct  Telefon* vector, int nrElemente, const char* conditie) {
 	//trebuie cautat elementul care indeplineste o conditie
 	//dupa atributul de tip char*. Acesta este returnat. 
 	//functie care face o cautare in telefoane in functie de producator, folosim strcmp 
-	struct  Telefon s;
-	s.id = 1;
-
-	return s;
+	//strcmp returneaza 0 daca sirurile sunt identice 
+	for (int i = 0; i < nrElemente; i++) {
+		if (strcmp(vector[i].producator, conditie) == 0) {
+			return copiazaTelefon(vector[i]);
+		}
+	}
+	return initializare(-1, 0, "Nu exista", 0, 0);
 }
 
 
@@ -93,26 +95,42 @@ struct  Telefon getPrimulElementConditionat(struct  Telefon* vector, int nrEleme
 int main() {
 
 	struct Telefon telefon;
-	telefon = initializare(1, 256, "Apple", 3100, 'A');
-
+	telefon = initializare(1, 256, "Blackberry", 3100, 'A');
 	int nrTelefoane = 3;
 	struct Telefon* telefoane = (struct Telefon*)malloc(sizeof(struct Telefon) * nrTelefoane);
 	telefoane[0] = initializare(1, 256, "Apple", 3200, 'A');
 	telefoane[1] = initializare(2, 256, "Samsung", 2500, 'S');
 	telefoane[2] = telefon;
 	afisareVector(telefoane, nrTelefoane);
+
+
 	int nrTelefoaneCopiate = 2;
 	struct Telefon* telefoaneCopiate = copiazaPrimeleNElemente(telefoane, nrTelefoane, nrTelefoaneCopiate);
 	printf("Vector telefoane copiate: \n");
 	afisareVector(telefoaneCopiate, nrTelefoaneCopiate);
-	dezalocare(&nrTelefoaneCopiate, &nrTelefoaneCopiate);
+	dezalocare(&telefoaneCopiate, &nrTelefoaneCopiate);
 	printf("Dupa dezalocare: \n");
 	afisareVector(telefoane, nrTelefoane);
-	struct Telefon* vectorNou;
-	int dimensiune;
-	copiazaTelefoaneScumpe(telefoane, nrTelefoane, 2700, &vectorNou, &dimensiune);
+
+
+	struct Telefon* vectorNou = NULL;
+	int dimensiune=0;
+	float pretMinim = 2700;
+	copiazaTelefoaneScumpe(telefoane, nrTelefoane, pretMinim, &vectorNou, &dimensiune);
 	printf("Telefoane scumpe:\n");
 	afisareVector(vectorNou, dimensiune);
 
+
+	printf("Telefonul cautat: \n");
+	struct Telefon telefonCautat = getPrimulElementConditionat(telefoane, nrTelefoane, "Apple");
+	if (telefonCautat.id != -1) {
+		afisare(telefonCautat);
+		free(telefonCautat.producator);
+	}
+	else {
+		printf("Telefonul cautat nu exista\n");
+	}
+	dezalocare(&telefoane, &nrTelefoane);
+	dezalocare(&vectorNou, &dimensiune);
 	return 0;
 }
