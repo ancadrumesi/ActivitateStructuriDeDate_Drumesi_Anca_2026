@@ -42,7 +42,7 @@ void adaugaMasinaInVector(Masina** masini, int* nrMasini, Masina masinaNoua) {
 	free(*masini);
 	//am facut shallow copy
 	(*masini) = temp;
-	*nrMasini++;
+	(*nrMasini)++;
 
 	//adauga in vectorul primit o noua masina pe care o primim ca parametru
 	//ATENTIE - se modifica numarul de masini din vector;
@@ -56,17 +56,22 @@ Masina citireMasinaFisier(FILE* file) {
 	char buffer[50];
 	char delimitator[3] = ",\n";
 	fgets(buffer, 50, file);
-	strtok(buffer, delimitator);
+
+	
 	masina.id = atoi(strtok(buffer, delimitator));
 	masina.nrUsi = atoi(strtok(NULL, delimitator));
-	masina.pret = atof(strtok(NULL, delimitator));
+	masina.pret = (float)atof(strtok(NULL, delimitator));
+
 	char* aux = strtok(NULL, delimitator);
 	masina.model = (char*)malloc(sizeof(char) * (strlen(aux) + 1));
 	strcpy(masina.model, aux);
+
 	aux = strtok(NULL, delimitator);
 	masina.numeSofer = (char*)malloc(sizeof(char) * (strlen(aux) + 1));
 	strcpy(masina.numeSofer, aux);
+
 	masina.serie = (strtok(NULL, delimitator))[0];
+
 	return masina;
 
 	//functia citeste o masina dintr-un strceam deja deschis
