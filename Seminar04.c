@@ -205,9 +205,21 @@ void stergeMasiniDinSeria(Nod** cap, char serieCautata) {
 	//tratati situatia ca masina se afla si pe prima pozitie, si pe ultima pozitie
 }
 
-float calculeazaPretulMasinilorUnuiSofer(/*lista masini*/ const char* numeSofer) {
-	//calculeaza pretul tuturor masinilor unui sofer.
-	return 0;
+float calculeazaPretulMasinilorUnuiSofer(Nod* cap, const char* numeSofer) {
+
+	float pretTotal = 0;
+
+	Nod* aux = cap; //sa nu pierdem adresa capului 
+
+	while (aux != NULL) {
+
+		//compara sirurile si returneaza 0 daca sunt identice
+		if (strcmp(aux->info.numeSofer, numeSofer) == 0) {
+			pretTotal += aux->info.pret;
+		}
+		aux = aux->next;
+	}
+	return pretTotal;
 }
 
 int main() {
@@ -226,6 +238,11 @@ int main() {
 	stergeMasiniDinSeria(&cap, 'A');
 	printf("Dupa stergerea seriei A\n");
 	afisareListaMasini(cap);
+
+	const char* sofer = "Ionescu";
+	float pretTotal = calculeazaPretulMasinilorUnuiSofer(cap, sofer);
+
+	printf("Pretul total al masinilor soferului %s este: %.2f\n", sofer, pretTotal);
 
 	return 0;
 }
