@@ -111,6 +111,7 @@ ListaDubla citireLDMasiniDinFisier(const char* numeFisier) {
 //o stocam pe stack deci nu ii alocam memorie deci dam return asa cum e!
 	FILE* f = fopen(numeFisier, "r");
 	ListaDubla lista;
+	lista.nrNoduri = 0;
 	lista.first = NULL;
 	lista.last = NULL;
 
@@ -133,7 +134,7 @@ void dezalocareLDMasini(ListaDubla* lista) {
 	while (nod) 
 	{
 		Nod* aux = nod;
-		nod = nod->prev;
+		nod = nod->next;
 		if (aux->info.model) 
 		{
 			free(aux->info.model);
@@ -220,10 +221,22 @@ void stergeMasinaDupaID(ListaDubla* lista, int id) {
 	//tratati situatia ca masina se afla si pe prima pozitie, si pe ultima pozitie
 }
 
-char* getNumeSoferMasinaScumpa(/*lista dublu inlantuita*/) {
-	//cauta masina cea mai scumpa si 
-	//returneaza numele soferului acestei maasini.
-	return NULL;
+char* getNumeSoferMasinaScumpa(ListaDubla lista) {
+	if (lista.first == NULL)
+		return NULL;
+	Nod* p = lista.first;
+	Nod* nodMaxim = p;
+	double pretMaxim = p->info.pret;
+
+	while (p != NULL) {
+		if (p->info.pret > pretMaxim) {
+			pretMaxim = p->info.pret;
+			nodMaxim = p;
+		}
+
+		p = p->next;
+	}
+	return nodMaxim->info.numeSofer;
 }
 
 int main() {
@@ -233,8 +246,12 @@ int main() {
 	printf("de la inceput: \n");
 
 	printf("Pretul mediu al masinilor este %f\n", calculeazaPretMediu(listaMea));
-	stergeMasinaDupaID(&listaMea, );
+	stergeMasinaDupaID(&listaMea, 1);
 	afisareListaMasiniDeLaInceput(listaMea);
+
+	char* soferVIP = getNumeSoferMasinaScumpa(listaMea);
+	if (soferVIP)
+		printf("Soferul celei mai scumpe masini este: %s\n", soferVIP);
 	
 
 	return 0;
