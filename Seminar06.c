@@ -50,22 +50,55 @@ void afisareMasina(Masina masina) {
 //STACK
 //Alegeti prin ce veti reprezenta stiva si creati structura necesara acestei stive
 //putem reprezenta o stiva prin LSI, LDI sau vector
-void pushStack(/*stiva*/ Masina masina) {
 
+typedef struct Nod Nod;
+struct Nod {
+	Masina masina;
+	Nod* next;
+};
+
+
+
+void pushStack(Nod** head, Masina masina) {
+	Nod* p = (Nod*)malloc(sizeof(Nod));
+	p->masina = masina;
+	p->next = (*head);
+	(*head) = p;
 }
 
-Masina popStack(/*stiva*/) {
-
+Masina popStack(Nod** head) {
+	//practic ce returnam
+	if ((*head) == NULL) {
+		Masina rezultat;
+		rezultat.id = -1;
+		return rezultat;
+	}
+	Masina rezultat = (*head)->masina;
+	Nod* temp = (*head)->next;
+	free(*head);
+	*head = temp;
+	return rezultat;
 }
 
-int emptyStack(/*stiva*/) {
+//poate fi int sau char, functioneaza ca un bool, dar char ocupa mai putina memorie!
+char isEmptyStack(Nod* head) {
+	return head == NULL;
 
 }
 
 void* citireStackMasiniDinFisier(const char* numeFisier) {
-	//functia primeste numele fisierului, il deschide si citeste toate masinile din fisier
-	//prin apelul repetat al functiei citireMasinaDinFisier()
-	//ATENTIE - la final inchidem fisierul/stream-ul
+	FILE *file = fopen(numeFisier, "r");
+	if (!file) {
+		return NULL;
+	}
+	
+	Nod* head = NULL;
+	while (!feof(file)) {
+		Masina masina = citireMasinaDinFisier(file);
+		pushStack(&head, masina);
+	}
+	return head;
+	fclose(file);
 }
 
 void dezalocareStivaDeMasini(/*stiva*/) {
@@ -104,7 +137,9 @@ Masina getMasinaByID(/*stiva sau coada de masini*/int id);
 float calculeazaPretTotal(/*stiva sau coada de masini*/);
 
 int main() {
-
+	Nod* stiva = citireStackMasiniDinFisier("Masini.txt");
+	afisareMasina(popStack(&stiva));
+	afisareMasina(popStack(&stiva));
 
 	return 0;
 }
