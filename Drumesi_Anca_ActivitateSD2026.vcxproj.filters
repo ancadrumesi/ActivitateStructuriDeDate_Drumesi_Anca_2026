@@ -21,5 +21,28 @@
     <ClCompile Include="Seminar02.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Seminar3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Seminar04.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exersare1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Seminar05.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Seminar06.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Masini.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Carti.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

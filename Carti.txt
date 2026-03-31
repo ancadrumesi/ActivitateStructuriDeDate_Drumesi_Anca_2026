@@ -1,0 +1,10 @@
+1,1990,Invitatie la vals,Mihail Drumesi,30.00,R
+2,1997,Romeo si Julietta,Shakespeare,79.99,D
+3,1870,O scrisoare pierduta,Caragiale,59.99,D
+4,1860,Micul Print,Exupery,49.99,D
+5,2004,Rosu si Negru,Stendhal,80.00,R
+6,1993,Viata lui Basquiat,Basquiat,100.00,A
+7,2001,Blue Moon,Orwell,29.99,A
+8,1997,Coco Chanel,Picasso,99.99,R
+9,1992,Primul razboi mondial,Ionescu,105.00,I
+10,1975,Istoria Romaniei,Angela Popescu,29.99,I
