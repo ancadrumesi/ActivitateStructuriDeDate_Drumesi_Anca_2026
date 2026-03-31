@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+//trebuie sa folositi fisierul masini.txt
+//sau va creati un alt fisier cu alte date
+
 struct StructuraMasina {
 	int id;
 	int nrUsi;
@@ -12,15 +15,6 @@ struct StructuraMasina {
 	unsigned char serie;
 };
 typedef struct StructuraMasina Masina;
-
-//creare structura pentru un nod dintr-o lista simplu inlantuita
-
-//creare structura pentru tabela de dispersie
-// aceasta este un vector de liste
-struct HashTable {
-	int dim;
-};
-typedef struct HashTable HashTable;
 
 Masina citireMasinaDinFisier(FILE* file) {
 	char buffer[100];
@@ -53,59 +47,61 @@ void afisareMasina(Masina masina) {
 	printf("Serie: %c\n\n", masina.serie);
 }
 
-void afisareListaMasini(/*lista de masini*/) {
-	//afiseaza toate elemente de tip masina din lista dublu inlantuita
-	//prin apelarea functiei afisareMasina()
+//STACK
+//Alegeti prin ce veti reprezenta stiva si creati structura necesara acestei stive
+//putem reprezenta o stiva prin LSI, LDI sau vector
+void pushStack(/*stiva*/ Masina masina) {
+
 }
 
-void adaugaMasinaInLista(/*lista de masini*/ Masina masinaNoua) {
-	//adauga la final in lista primita o noua masina pe care o primim ca parametru
+Masina popStack(/*stiva*/) {
+
 }
 
+int emptyStack(/*stiva*/) {
 
-HashTable initializareHashTable(int dimensiune) {
-	HashTable ht;
-	//initializeaza vectorul de liste si seteaza fiecare lista ca fiind NULL;
-	return ht;
 }
 
-int calculeazaHash(/*atribut al masini pentru clusterizare*/ int dimensiune) {
-	// este calculat hash-ul in functie de dimensiunea tabelei si un atribut al masinii
-}
-
-void inserareMasinaInTabela(HashTable hash, Masina galerie) {
-	//este folosit mecanismul CHAINING
-	//este determinata pozitia si se realizeaza inserarea pe pozitia respectiva
-}
-
-HashTable citireMasiniDinFisier(const char* numeFisier) {
+void* citireStackMasiniDinFisier(const char* numeFisier) {
 	//functia primeste numele fisierului, il deschide si citeste toate masinile din fisier
 	//prin apelul repetat al functiei citireMasinaDinFisier()
-	// aceste masini sunt inserate intr-o tabela de dispersie initializata aici
 	//ATENTIE - la final inchidem fisierul/stream-ul
 }
 
-void afisareTabelaDeMasini(HashTable ht) {
-	//sunt afisate toate masinile cu evidentierea clusterelor realizate
+void dezalocareStivaDeMasini(/*stiva*/) {
+	//sunt dezalocate toate masinile si stiva de elemente
 }
 
-void dezalocareTabelaDeMasini(HashTable *ht) {
-	//sunt dezalocate toate masinile din tabela de dispersie
+int size(/*stiva*/) {
+	//returneaza numarul de elemente din stiva
 }
 
-float* calculeazaPreturiMediiPerClustere(HashTable ht, int* nrClustere) {
-	//calculeaza pretul mediu al masinilor din fiecare cluster.
-	//trebuie sa returnam un vector cu valorile medii per cluster.
-	//lungimea vectorului este data de numarul de clustere care contin masini
-	return NULL;
+//QUEUE
+//Alegeti prin ce veti reprezenta coada si creati structura necesara acestei cozi
+//putem reprezenta o coada prin LSI, LDI sau vector
+void enqueue(/*coada*/ Masina masina) {
+	//adauga o masina in coada
 }
 
-Masina getMasinaDupaCheie(HashTable ht /*valoarea pentru masina cautata*/) {
-	Masina m;
-	//cauta masina dupa valoarea atributului cheie folosit in calcularea hash-ului
-	//trebuie sa modificam numele functiei 
-	return m;
+Masina dequeue(/*coada*/) {
+	//extrage o masina din coada
 }
+
+void* citireCoadaDeMasiniDinFisier(const char* numeFisier) {
+	//functia primeste numele fisierului, il deschide si citeste toate masinile din fisier
+	//prin apelul repetat al functiei citireMasinaDinFisier()
+	//ATENTIE - la final inchidem fisierul/stream-ul
+}
+
+void dezalocareCoadaDeMasini(/*coada*/) {
+	//sunt dezalocate toate masinile si coada de elemente
+}
+
+
+//metode de procesare
+Masina getMasinaByID(/*stiva sau coada de masini*/int id);
+
+float calculeazaPretTotal(/*stiva sau coada de masini*/);
 
 int main() {
 
