@@ -132,7 +132,33 @@ void dezalocareCoadaDeMasini(/*coada*/) {
 
 
 //metode de procesare
-Masina getMasinaByID(/*stiva sau coada de masini*/int id);
+Masina getMasinaByID(Nod** stiva, int id) {
+	Masina rezultat;
+	if ((*stiva) == NULL) {
+		rezultat.id = -1;
+		return rezultat;
+	}
+
+	Nod* stivaNoua = NULL;
+
+	while ((*stiva)) {
+		Masina masinaNoua = popStack(stiva);
+		if (masinaNoua.id == id) {
+			rezultat = masinaNoua;
+			break; //cand ajunge la id-ul cautat
+		}
+		else {
+			pushStack(&stivaNoua, masinaNoua);
+		}
+		//pushStack(stivaNoua, popStack(&stiva));
+	}
+	//le parcurgem pe toate
+	while (stivaNoua) {
+		pushStack(stiva, popStack(&stivaNoua));
+	}
+
+	return rezultat;
+}
 
 float calculeazaPretTotal(/*stiva sau coada de masini*/);
 
@@ -140,6 +166,9 @@ int main() {
 	Nod* stiva = citireStackMasiniDinFisier("Masini.txt");
 	afisareMasina(popStack(&stiva));
 	afisareMasina(popStack(&stiva));
+
+	afisareMasina(getMasinaByID(&stiva, 6));
+
 
 	return 0;
 }
