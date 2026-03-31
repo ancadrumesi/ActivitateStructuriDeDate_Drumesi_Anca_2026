@@ -109,21 +109,60 @@ int size(/*stiva*/) {
 	//returneaza numarul de elemente din stiva
 }
 
+typedef struct NodDublu NodDublu;
+struct NodDublu
+{
+	Masina info;
+	NodDublu* next;
+	NodDublu* prev;
+
+};
+
+typedef struct ListaDubla ListaDubla;
+struct ListaDubla 
+{
+	NodDublu* first;
+	NodDublu* last;
+};
 //QUEUE
-//Alegeti prin ce veti reprezenta coada si creati structura necesara acestei cozi
-//putem reprezenta o coada prin LSI, LDI sau vector
-void enqueue(/*coada*/ Masina masina) {
-	//adauga o masina in coada
+//lista dubla inlantuita (de facut si cu restul)
+void enqueue(ListaDubla* coada, Masina masina) {
+	NodDublu* nodNou = (NodDublu*)malloc(sizeof(NodDublu));
+	nodNou->info = masina;
+	nodNou->next = NULL;
+	nodNou->prev = coada->last;
+	if (coada->last) {
+		coada->last->next = nodNou;
+	}
+	else {
+		coada->first = nodNou;
+	}
+	coada->last = nodNou;
 }
 
-Masina dequeue(/*coada*/) {
-	//extrage o masina din coada
+Masina dequeue(ListaDubla* coada) {
+	Masina rezultat;
+	rezultat.id = -1;
+	if (coada->first) {
+		rezultat = coada->first->info; //shallow copy si de asta dam free(temp) si nu separat pentru model si sofer
+		NodDublu* temp = coada->first;
+		coada->first = temp->next; 
+		free(temp);
+	}
+	return rezultat;
 }
 
-void* citireCoadaDeMasiniDinFisier(const char* numeFisier) {
-	//functia primeste numele fisierului, il deschide si citeste toate masinile din fisier
-	//prin apelul repetat al functiei citireMasinaDinFisier()
-	//ATENTIE - la final inchidem fisierul/stream-ul
+ListaDubla citireCoadaDeMasiniDinFisier(const char* numeFisier) {
+	ListaDubla coada;
+	coada.first = coada.last = NULL;
+	FILE* file = fopen(numeFisier, "r");
+	if (file) {
+		while (!feof(file)) {
+			enqueue(&coada, citireMasinaDinFisier(file));
+		}
+		fclose(file);
+	}
+	return coada;
 }
 
 void dezalocareCoadaDeMasini(/*coada*/) {
@@ -169,6 +208,9 @@ int main() {
 
 	afisareMasina(getMasinaByID(&stiva, 6));
 
+	printf("Coada\n");
+	ListaDubla coada = citireCoadaDeMasiniDinFisier("Masini.txt");
+	afisareMasina(dequeue(&coada));
 
 	return 0;
 }
