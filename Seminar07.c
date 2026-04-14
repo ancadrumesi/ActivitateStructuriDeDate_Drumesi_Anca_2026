@@ -118,7 +118,7 @@ void inserareMasinaInTabela(HashTable hash, Masina masina) {
 	int poz = calculeazaHash(masina.id, hash.dim);
 	if (hash.tabela[poz]) {
 		//avem coliziune 
-		adaugaMasinaInLista(hash.tabela[poz], masina);
+		adaugaMasinaInLista(&(hash.tabela[poz]), masina);
 	}
 	else {
 		//nu avem coliziune
