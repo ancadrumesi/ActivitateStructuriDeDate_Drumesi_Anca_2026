@@ -160,7 +160,22 @@ void afisareTabelaDeMasini(HashTable ht) {
 }
 
 void dezalocareTabelaDeMasini(HashTable *ht) {
-	//sunt dezalocate toate masinile din tabela de dispersie
+	if (ht->tabela != NULL) {
+		for (int i = 0; i < ht->dim; i++) {
+			Nod* temp = ht->tabela[i];
+			while (temp) {
+				Nod* nodSters = temp;
+				temp = temp->next;
+				free(nodSters->info.model);
+				free(nodSters->info.numeSofer);
+				free(nodSters);
+			}
+		}
+		free(ht->tabela);
+		ht->tabela = NULL;
+	}
+
+	ht->dim = 0;
 }
 
 float* calculeazaPreturiMediiPerClustere(HashTable ht, int* nrClustere) {
@@ -231,6 +246,9 @@ int main() {
 	for (int i = 0; i < nrClustere; i++) {
 		printf("Pretul mediu este: %f\n", i, vectorPreturi[i]);
 	}
+
+	free(vectorPreturi);
+	dezalocareTabelaDeMasini(&tabelaMea);
 
 	return 0;
 }
