@@ -116,6 +116,7 @@ ListaDubla citireLDCartiDinFisier(const char* numeFisier) {
 
 		return lista;
 	}
+
 	while (!feof(f)) 
 	{
 		adaugaCarteInLista(&lista, citireCarteDinFisier(f)); 
