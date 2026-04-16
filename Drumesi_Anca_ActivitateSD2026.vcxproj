@@ -124,11 +124,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Exersare1.c" />
+    <ClCompile Include="Exersare2.c" />
     <ClCompile Include="Seminar01.c" />
     <ClCompile Include="Seminar02.c" />
     <ClCompile Include="Seminar04.c" />
     <ClCompile Include="Seminar05.c" />
     <ClCompile Include="Seminar06.c" />
+    <ClCompile Include="Seminar07.c" />
     <ClCompile Include="Seminar3.c" />
   </ItemGroup>
   <ItemGroup>
