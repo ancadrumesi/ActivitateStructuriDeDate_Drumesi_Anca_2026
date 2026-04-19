@@ -1,6 +1,6 @@
-#define CRT_SECURE_NO_WARNINGS
-#include <math.h>
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 typedef struct StructuraCarte Carte;
@@ -32,7 +32,7 @@ struct ListaDubla
 
 Carte citireCarteDinFisier(FILE* file) 
 {
-	char buffer[100];
+	char buffer[150];
 	char sep[3] = ",\n";
 	fgets(buffer, 100, file);
 	char* aux;
@@ -59,4 +59,130 @@ void afisareCarte(Carte carte)
 	printf("Autor: %s\n", carte.numeAutor);
 	printf("Pret: %.2f\n", carte.pret);
 	printf("Serie: %c\n\n", carte.serie);
+}
+
+void afisareListaCartiDeLaInceput(ListaDubla LD)
+{
+	printf("Lista contine %d noduri:\n", LD.nrNoduri);
+	Nod* p = LD.first;
+	while (p)
+	{
+		afisareCarte(p->info);
+		p = p->next;
+	}
+}
+
+void afisareListaDeLaSfarsit(ListaDubla LD)
+{
+	printf("Lista contine %d noduri:\n", LD.nrNoduri);
+	Nod* p = LD.last;
+	while (p)
+	{
+		afisareCarte(p->info);
+		p = p->prev;
+	}
+}
+
+void inserareCarteInListaLaFinal(ListaDubla* LD, Carte carteNoua)
+{
+	Nod* nodNou = (Nod*)malloc(sizeof(Nod));
+	nodNou->info = carteNoua;
+	nodNou->next = NULL;
+	nodNou->prev = LD->last;
+	if (LD->last != NULL)
+	{
+		LD->last->next = nodNou;
+	}
+	else
+	{
+		LD->first = nodNou;
+	}
+	LD->last = nodNou;
+	LD->nrNoduri++;
+}
+
+void inserareCarteInListaLaInceput(ListaDubla* LD, Carte carteNoua)
+{
+	Nod* nodNou = (Nod*)malloc(sizeof(Nod));
+	nodNou->info = carteNoua;
+	nodNou->prev = NULL;
+	nodNou->next = LD->first;
+	if (LD->first != NULL)
+	{
+		LD->first->prev = nodNou;
+	}
+	else
+	{
+		LD->last = nodNou;
+	}
+	LD->first = nodNou;
+	LD->nrNoduri++;
+}
+
+ListaDubla citireLDCartiDinFisier(const char* numeFisier)
+{
+	FILE* f = fopen(numeFisier, "r");
+	ListaDubla LD;
+	LD.nrNoduri = 0;
+	LD.first = NULL;
+	LD.last = NULL;
+
+	if (!f)
+	{
+		return LD;
+	}
+
+	while (!feof(f))
+	{
+		inserareCarteInListaLaInceput(&LD, citireCarteDinFisier(f));
+	}
+	fclose(f);
+	return LD;
+}
+
+void dezalocareLDCarti(ListaDubla* LD)
+{
+	Nod* nod = LD->first;
+	while (nod)
+	{
+		Nod* aux = nod;
+		nod = nod->next;
+		if (aux->info.titlu)
+		{
+			free(aux->info.titlu);
+		}
+		if (aux->info.numeAutor)
+		{
+			free(aux->info.numeAutor);
+		}
+		free(aux);
+		LD->nrNoduri--;
+	}
+	LD->first = NULL;
+	LD->last = NULL;
+}
+
+int main()
+{
+	ListaDubla lista = citireLDCartiDinFisier("Carti.txt");
+	printf("De la inceput:\n");
+	afisareListaCartiDeLaInceput(lista);
+
+	Carte carteNoua;
+	carteNoua.id = 11; 
+	carteNoua.an = 1989;
+	carteNoua.titlu = (char*)malloc(strlen("Revolutie") + 1);
+	strcpy_s(carteNoua.titlu, strlen("Revolutie") + 1, "Revolutie");
+	carteNoua.numeAutor = (char*)malloc(strlen("Florin Dragomir") + 1);
+	strcpy_s(carteNoua.numeAutor, strlen("Florin Dragomir") + 1, "Florin Dragomir");
+	carteNoua.pret = 199.99;
+	carteNoua.serie = 'A';
+	inserareCarteInListaLaFinal(&lista, carteNoua);
+
+	printf("Afisare noua lista:\n");
+	afisareListaDeLaSfarsit(lista);
+	
+	dezalocareLDCarti(&lista);
+
+	return 0;
 }
