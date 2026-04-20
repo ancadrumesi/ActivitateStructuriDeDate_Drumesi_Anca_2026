@@ -172,7 +172,7 @@ void stergeCarteDupaID(ListaDubla* LD, int id)
 			return;
 		else
 		{
-			if (p->prev = NULL)
+			if (p->prev == NULL)
 			{
 				Nod* aux = p;
 				if (p->next)
@@ -221,6 +221,7 @@ float calculeazaPretMediu(ListaDubla LD)
 		while (p)
 		{
 			pretTotal += p->info.pret;
+			p = p->next;
 		}
 	}
 	return pretTotal/LD.nrNoduri;
@@ -265,13 +266,16 @@ int main()
 	printf("Afisare noua lista:\n");
 	afisareListaDeLaSfarsit(lista);
 
-	int id = 8;
-	stergeCarteDupaID(&lista, id);
-	printf("Lista dupa stergerea cartii cu id-ul %d:\n", afisareListaCartiDeLaInceput);
+	int idSters = 8;
+	stergeCarteDupaID(&lista, idSters);
+	printf("Lista dupa stergerea cartii cu id-ul %d:\n", idSters);
+	afisareListaCartiDeLaInceput(lista);
 
-	printf("Pretul mediu al cartilor este:\n");
-	float pretTotal = 0;
-	calculeazaPretMediu(lista);
+	float pretMediu = calculeazaPretMediu(lista);
+	printf("Pretul mediu al cartilor este: %.2f\n", pretMediu);
+
+	char* autor = getNumeAutorCarteScumpa(lista);
+	printf("Autorul celei mai scumpe carti este: %s\n", autor);
 	
 	dezalocareLDCarti(&lista);
 
