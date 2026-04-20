@@ -162,6 +162,89 @@ void dezalocareLDCarti(ListaDubla* LD)
 	LD->last = NULL;
 }
 
+void stergeCarteDupaID(ListaDubla* LD, int id)
+{
+	if (LD->first)
+	{
+		Nod* p;
+		for (p = LD->first; p != NULL && p->info.id != id; p = p->next); //parcurgem lista
+		if (!p)
+			return;
+		else
+		{
+			if (p->prev = NULL)
+			{
+				Nod* aux = p;
+				if (p->next)
+				{
+					p->next->prev = NULL;
+				}
+				else
+				{
+					LD->first = NULL;
+				}
+				LD->first = p->next;
+				free(p->info.titlu);
+				free(p->info.numeAutor);
+				free(p);
+			}
+			else
+			{
+				p->prev->next = p->next;
+				if (p->next)
+				{
+					p->next->prev = p->prev;
+				}
+				else
+				{
+					LD->last = p->prev;
+				}
+				free(p->info.titlu);
+				free(p->info.numeAutor);
+				free(p);
+			}
+			LD->nrNoduri--;
+		}
+	}
+}
+
+float calculeazaPretMediu(ListaDubla LD)
+{
+	float pretTotal = 0;
+	if(LD.first == NULL)
+	{
+		return 0;
+	}
+	else 
+	{
+		Nod* p = LD.first;
+		while (p)
+		{
+			pretTotal += p->info.pret;
+		}
+	}
+	return pretTotal/LD.nrNoduri;
+}
+
+char* getNumeAutorCarteScumpa(ListaDubla LD)
+{
+	if (LD.first == NULL)
+		return NULL;
+	Nod* p = LD.first;
+	Nod* nodMaxim = p;
+	double pretMaxim = p->info.pret;
+	while (p != NULL)
+	{
+		if (p->info.pret > pretMaxim)
+		{
+			pretMaxim = p->info.pret;
+			nodMaxim = p;
+		}
+		p = p->next;
+	}
+	return nodMaxim->info.numeAutor;
+}
+
 int main()
 {
 	ListaDubla lista = citireLDCartiDinFisier("Carti.txt");
@@ -181,6 +264,14 @@ int main()
 
 	printf("Afisare noua lista:\n");
 	afisareListaDeLaSfarsit(lista);
+
+	int id = 8;
+	stergeCarteDupaID(&lista, id);
+	printf("Lista dupa stergerea cartii cu id-ul %d:\n", afisareListaCartiDeLaInceput);
+
+	printf("Pretul mediu al cartilor este:\n");
+	float pretTotal = 0;
+	calculeazaPretMediu(lista);
 	
 	dezalocareLDCarti(&lista);
 
