@@ -46,6 +46,7 @@ void afisareCarte(Carte carte)
 }
 
 
+
 int main()
 {
 	return 0;
