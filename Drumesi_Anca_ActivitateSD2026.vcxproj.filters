@@ -42,6 +42,18 @@
     <ClCompile Include="Exersare2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Exersare3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exersare4.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Seminar08.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exersare5_coada.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Masini.txt">

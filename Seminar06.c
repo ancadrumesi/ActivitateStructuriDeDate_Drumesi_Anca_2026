@@ -169,6 +169,8 @@
 //	//sunt dezalocate toate masinile si coada de elemente
 //}
 //
+// 
+
 //
 ////metode de procesare
 //Masina getMasinaByID(Nod** stiva, int id) {
