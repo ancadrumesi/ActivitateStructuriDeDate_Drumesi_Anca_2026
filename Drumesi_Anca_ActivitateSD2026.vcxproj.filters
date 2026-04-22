@@ -54,12 +54,18 @@
     <ClCompile Include="Exersare5_coada.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Exersare6_Dubla.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Masini.txt">
       <Filter>Source Files</Filter>
     </Text>
     <Text Include="Carti.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Televizoare.txt">
       <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>

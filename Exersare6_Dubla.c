@@ -122,7 +122,42 @@ void dezalocareLD(ListaDubla* lista)
 	lista->last = NULL;
 }
 
+Televizor cautaTelevizorByProducator(ListaDubla lista, char* numeCautat)
+{
+	Nod* p = lista.first;
+	while (p)
+	{
+		if (strcmp(p->info.producator, numeCautat) == 0)
+		{
+			return p->info;
+		}
+		p = p->next;
+	}
 
+	Televizor tvNull = { NULL, 0, 0.0f };
+	return tvNull;
+}
+
+char* getProducatorByDiagonalaMinima(ListaDubla lista)
+{
+	if (lista.first == NULL)
+		return NULL;
+	Nod* p = lista.first;
+	Nod* nodMin = p;
+	float min = p->info.diagonala;
+
+	while (p)
+	{
+		if (p->info.diagonala < min)
+		{
+			min = p->info.diagonala;
+			nodMin = p;
+		}
+		p = p->next;
+	}
+
+	return nodMin->info.producator;
+}
 
 int main() 
 {
@@ -139,6 +174,14 @@ int main()
 	printf("Afisare lista noua:\n");
 	afisareListaTelevizoareDeLaFinal(lista);
 
+	char* producatorCautat = "Samsung";
+	Televizor tvGasit = cautaTelevizorByProducator(lista, producatorCautat);
+	printf("Televizorul cautat este:\n");
+	afisareTelevizor(tvGasit);
+
+	char* producatorMin = getProducatorByDiagonalaMinima(lista);
+	printf("Producatorul televizorului cu cea mai mica diagoanala este: %s\n", producatorMin);
+	
 	dezalocareLD(&lista);
 	printf("Lista a fost stearsa!");
 
