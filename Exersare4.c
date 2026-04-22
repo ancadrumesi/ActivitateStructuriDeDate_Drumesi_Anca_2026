@@ -8,9 +8,9 @@ struct StructuraCarte
 {
 	int id;
 	int an;
+	float pret;
 	char* titlu;
 	char* numeAutor; 
-	float pret;
 	unsigned char serie;
 };
 
@@ -39,9 +39,9 @@ void afisareCarte(Carte carte)
 {
 	printf("ID: %d\n", carte.id);
 	printf("An aparitie: %d\n", carte.an);
+	printf("Pret: %.2f\n", carte.pret);
 	printf("Titlu: %s\n", carte.titlu);
 	printf("Autor: %s\n", carte.numeAutor);
-	printf("Pret: %.2f\n", carte.pret);
 	printf("Serie: %c\n", carte.serie);
 }
 
