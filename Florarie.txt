@@ -1,0 +1,5 @@
+Bujor,12.0,100
+Lalea,8.0,150
+Trandafir,9.0,600
+Iris,10.0,45
+Gladiola,23.0,59
