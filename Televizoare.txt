@@ -1,0 +1,5 @@
+Samsung, 300, 11.8
+Apple Tv, 400, 12.0
+LCD, 30, 8.0
+Samsung, 300, 10.0
+Huaweii, 700, 15.25
