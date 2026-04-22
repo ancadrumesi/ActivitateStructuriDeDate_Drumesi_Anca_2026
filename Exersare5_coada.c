@@ -18,13 +18,13 @@ Carte citireCarteDinFisier(FILE* file)
 {
 	char buffer[100];
 	char* sep = ",\n";
-	fgets(buffer, 150, sep);
+	fgets(buffer, 150, file);
 	char* aux;
 	Carte c1;
 	aux = strtok(buffer, sep);
 	c1.id = atoi(aux);
 	c1.an = atoi(strtok(NULL, sep));
-	c1.pret = atoi(strtok(NULL, sep));
+	c1.pret = atof(strtok(NULL, sep));
 	aux = strtok(NULL, sep);
 	c1.titlu = malloc(strlen(aux) + 1);
 	strcpy_s(c1.titlu, strlen(aux) + 1, aux);
@@ -41,7 +41,7 @@ void afisareCarte(Carte carte)
 	printf("An: %d\n", carte.an);
 	printf("Pret: %.2f\n", carte.pret);
 	printf("Titlu: %s\n", carte.titlu);
-	printf("Autor: %d\n", carte.numeAutor);
+	printf("Autor: %s\n", carte.numeAutor);
 	printf("Serie: %c\n", carte.serie);
 }
 
@@ -100,12 +100,64 @@ Carte dequeue(ListaDubla* coada)
 	return rezultat;
 }
 
+ListaDubla citireCoadaDeCartiDinFisier(const char* numeFisier)
+{
+	ListaDubla coada;
+	coada.first = coada.last = NULL;
+	FILE* file = fopen(numeFisier, "r");
+	if (file)
+	{
+		while (!feof(file))
+		{
+			enqueue(&coada, citireCarteDinFisier(file));
+		}
+		fclose(file);
+	}
+	return coada;
+}
+
+void dezalocareCoadaDeCarti(ListaDubla* coada)
+{
+	while (coada->first != NULL)
+	{
+		Carte c = dequeue(coada);
+		if (c.titlu) 
+		{
+			free(c.titlu);
+		}
+		if (c.numeAutor)
+		{
+			free(c.numeAutor);
+		}
+	}
+}
 
 
 
 
 int main()
 {
-	ListaDubla coada = ("Carti.txt");
+	ListaDubla coada = citireCoadaDeCartiDinFisier("Carti.txt");
 
+	printf("Parcurgere coada:\n");
+	Nod* p = coada.first;
+	while (p)
+	{
+		afisareCarte(p->info);
+		p = p->next;
+	}
+
+	printf("extragere primul sosit:\n");
+	Carte primaCarteDinCoada = dequeue(&coada);
+	if (primaCarteDinCoada.id != -1)
+	{
+		afisareCarte(primaCarteDinCoada);
+		free(primaCarteDinCoada.titlu);
+		free(primaCarteDinCoada.numeAutor);
+	}
+
+	dezalocareCoadaDeCarti(&coada);
+	printf("Coada a fost dezalocata!\n");
+
+	return 0;
 }
