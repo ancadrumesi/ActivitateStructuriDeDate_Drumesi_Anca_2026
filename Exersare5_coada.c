@@ -132,6 +132,55 @@ void dezalocareCoadaDeCarti(ListaDubla* coada)
 	}
 }
 
+Carte getCarteById_Coada(ListaDubla* coada, int idCautat)
+{
+	Carte rezultat;
+	rezultat.id = -1;
+	ListaDubla coadaAux;
+	coadaAux.first = coadaAux.last = NULL;
+
+	while (coada->first != NULL)
+	{
+		Carte c = dequeue(coada);
+		if (c.id == idCautat)
+		{
+			rezultat = c;
+		}
+		enqueue(&coadaAux, c); //mutam in coada nou formata
+	}
+
+	//mutam totul inapoi in coada initiala
+	while (coadaAux.first != NULL)
+	{
+		enqueue(coada, dequeue(&coadaAux));
+	}
+	return rezultat;
+}
+
+Carte getCarteByAutor(ListaDubla* coada, char* autorCautat)
+{
+	Carte rezultat;
+	rezultat.id = -1;
+	ListaDubla coadaAux;
+	coadaAux.first = coadaAux.last = NULL;
+
+	while (coada->first != NULL)
+	{
+		Carte c = dequeue(coada);
+		if (strcmp(c.numeAutor, autorCautat) == 0)
+		{
+			rezultat = c;
+			enqueue(&coadaAux, c);
+		}
+	}
+
+	while (coadaAux.first != NULL)
+	{
+		enqueue(coada, dequeue(&coadaAux));
+	}
+
+	return rezultat;
+}
 
 
 
@@ -147,6 +196,23 @@ int main()
 		p = p->next;
 	}
 
+
+	int idCautat = 2;
+	Carte carteByID = getCarteById_Coada(&coada, idCautat);
+	if (carteByID.id != -1) {
+		printf("Cartea cu id-ul %d este:\n", idCautat);
+		afisareCarte(carteByID);
+	}
+
+	char* autorCautat = "Picasso";
+	Carte carteByAutor = getCarteByAutor(&coada, autorCautat);
+	if (carteByAutor.id != -1)
+	{
+		printf("Cartea care il are ca autor pe %s este: \n", autorCautat);
+		afisareCarte(carteByAutor);
+	}
+
+
 	printf("extragere primul sosit:\n");
 	Carte primaCarteDinCoada = dequeue(&coada);
 	if (primaCarteDinCoada.id != -1)
@@ -155,6 +221,7 @@ int main()
 		free(primaCarteDinCoada.titlu);
 		free(primaCarteDinCoada.numeAutor);
 	}
+
 
 	dezalocareCoadaDeCarti(&coada);
 	printf("Coada a fost dezalocata!\n");
