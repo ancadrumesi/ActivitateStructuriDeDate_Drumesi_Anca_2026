@@ -113,11 +113,99 @@ void dezalocareArbore(Nod** radacina)
 	}
 }
 
+Florarie getFloareById(Nod* radacina, int idCautat)
+{
+	if (radacina)
+	{
+		if (radacina->info.id == idCautat)
+		{
+			Florarie f = radacina->info;
+			f.denumire = (char*)malloc(strlen(radacina->info.denumire) + 1);
+			strcpy_s(f.denumire, strlen(radacina->info.denumire) + 1, radacina->info.denumire);
+			return f;
+		}
+
+		if (radacina->info.id < idCautat)
+		{
+			return getFloareById(radacina->dreapta, idCautat);
+		}
+		if (radacina->info.id > idCautat)
+		{
+			return getFloareById(radacina->stanga, idCautat);
+		}
+	}
+	else
+	{
+		Florarie f;
+		f.id = -1;
+		return f;
+	}
+}
+
+int determinaNumarNoduri(Nod* radacina)
+{
+	if (radacina)
+	{
+		return determinaNumarNoduri(radacina->stanga) + determinaNumarNoduri(radacina->dreapta) + 1;
+	}
+
+	return 0;
+}
+
+int calculeazaInaltimeArbore(Nod* radacina)
+{
+	//inaltimea maxima a arborelui e data de lungimea dintre radacina si cel mai indepartat nod frunza
+	if (radacina)
+	{
+		int inaltimeStg = calculeazaInaltimeArbore(radacina->stanga);
+		int inaltimeDrpt = calculeazaInaltimeArbore(radacina->dreapta);
+		return inaltimeStg > inaltimeDrpt ? inaltimeStg + 1 : inaltimeDrpt + 1;
+	}
+
+	return 0;
+}
+
+float calculeazaPretTotal(Nod* radacina)
+{
+	if (radacina)
+	{
+		return calculeazaPretTotal(radacina->stanga) + calculeazaPretTotal(radacina->dreapta) + radacina->info.pret;
+	}
+
+	return 0;
+}
+
+float calculeazaPretulBujorilor(Nod* radacina, const char* denumire)
+{
+	if (radacina)
+	{
+		float suma = calculeazaPretulBujorilor(radacina->stanga, denumire) + calculeazaPretulBujorilor(radacina->dreapta, denumire);
+		if (strcmp(radacina->info.denumire, denumire) == 0)
+		{
+			return suma + radacina->info.pret;
+		}
+		else
+		{
+			return suma;
+		}
+	}
+	else
+	{
+		return 0;
+	}
+
+	return 0;
+}
 
 int main()
 {
 	Nod* radacina = citireArboreDeMasiniDinFisier("florarie_arbore.txt");
 	afisareFloriDinArboreInordine(radacina);
+	afisareFlorarie(getFloareById(radacina, 1));
+	printf("Numar noduri in arbore: %d\n", determinaNumarNoduri(radacina));
+	printf("Inaltimea arborelui este: %d\n", calculeazaInaltimeArbore(radacina));
+	printf("Pretul total al florilor din florarie este: %.2f\n", calculeazaPretTotal(radacina));
+	printf("Pret total al florilor de tip Bujor este: %.2f\n", calculeazaPretulBujorilor(radacina, "Bujor"));
 
 	dezalocareArbore(&radacina);
 	printf("dupa dezalocare\n");
