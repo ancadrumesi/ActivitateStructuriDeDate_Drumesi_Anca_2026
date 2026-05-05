@@ -112,10 +112,41 @@ void dezalocare(Nod** radacina)
 	}
 }
 
+Student getStudentById(Nod* radacina, int idCautat)
+{
+	if (radacina)
+	{
+		if (radacina->info.id == idCautat)
+		{
+			Student s = radacina->info;
+			s.nume = (char*)malloc(strlen(radacina->info.nume) + 1);
+			strcpy_s(s.nume, strlen(radacina->info.nume) + 1, radacina->info.nume);
+			return s;
+		}
+
+		if (radacina->info.id < idCautat)
+		{
+			return getStudentById(radacina->dreapta, idCautat);
+		}
+
+		if (radacina->info.id > idCautat)
+		{
+			return getStudentById(radacina->stanga, idCautat);
+		}
+	}
+	else {
+		Student s;
+		s.id = -1;
+		return s;
+	}
+}
+
 int main()
 {
 	Nod* radacina = citireArboreDeStudentiDinFisier("studenti.txt");
 	afisareInordine(radacina);
+
+	getStudentById(radacina, 1);
 
 	printf("dupa dezalocare:\n");
 	dezalocare(&radacina);
