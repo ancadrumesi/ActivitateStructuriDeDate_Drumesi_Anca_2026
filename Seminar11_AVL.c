@@ -3,8 +3,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-//trebuie sa folositi fisierul masini.txt
-//sau va creati un alt fisier cu alte date
+//diferenta de 2 ne arata ca avem dezechilibru 
+//-2 factor de echilibru
+//stanga - dreapta 
+//rotim la stanga si schimbam radacina cu nodul din dreapta (daca avem dezechilibru la dreapta)
+//trebuie sa vedem daca gradul e negativ sau pozitiv si asa ne dam seama unde sa facem rotirea 
+//uneori facem dubla rotire cand gradul celui din mijloc e negativ si se schimba semnul 
+//echilibrarea se face la momentul inserarii 
+//trebuie sa facem verificarea de dezechilibru in fiecare nod de la nodul inserat catre radacina
+//multimea {0, -1, 1} unde ai diferentele dintre inaltimea stanga - inaltimea dreapta 
 
 struct StructuraMasina {
 	int id;
