@@ -141,7 +141,7 @@ void adaugaMasinaInArboreEchilibrat(NodArbore** radacina, Masina masinaNoua) {
 		nodNou->stanga = NULL;
 		nodNou->dreapta = NULL;
 		nodNou->info = masinaNoua;
-		(*radacina) = NULL;
+		(*radacina) = nodNou;
 	}
 	//adauga o noua masina pe care o primim ca parametru in arbore,
 	//astfel incat sa respecte principiile de arbore binar de cautare ECHILIBRAT
@@ -200,6 +200,7 @@ int main() {
 
 	NodArbore* radacina = citireArboreDeMasiniDinFisier("Masini.txt");
 	afisareMasiniDinArbore(radacina);
+	dezalocareArboreDeMasini(&radacina);
 
 	return 0;
 }
