@@ -143,9 +143,6 @@ void adaugaMasinaInArboreEchilibrat(NodArbore** radacina, Masina masinaNoua) {
 		nodNou->info = masinaNoua;
 		(*radacina) = nodNou;
 	}
-	//adauga o noua masina pe care o primim ca parametru in arbore,
-	//astfel incat sa respecte principiile de arbore binar de cautare ECHILIBRAT
-	//dupa o anumita cheie pe care o decideti - poate fi ID
 }
 
 NodArbore* citireArboreDeMasiniDinFisier(const char* numeFisier) {
@@ -182,19 +179,73 @@ void dezalocareArboreDeMasini(NodArbore** radacina) {
 		free(*radacina);
 		*radacina = NULL;
 	}
-	//sunt dezalocate toate masinile si arborele de elemente
 }
 
-//Preluati urmatoarele functii din laboratorul precedent.
-//Acestea ar trebuie sa functioneze pe noul arbore echilibrat.
+Masina getMasinaByID(NodArbore* radacina, int idCautat)
+{
+	if (radacina)
+	{
+		if (radacina->info.id == idCautat)
+		{
+			Masina m = radacina->info;
+			m.model = (char*)malloc(strlen(radacina->info.model) + 1);
+			strcpy(m.model, radacina->info.model);
+			m.numeSofer = (char*)malloc(strlen(radacina->info.numeSofer) + 1);
+			strcpy(m.numeSofer, radacina->info.numeSofer);
+			return m;
+		}
 
-Masina getMasinaByID(/*arborele de masini*/int id);
+		if (radacina->info.id < idCautat)
+		{
+			return getMasinaByID(radacina->dreapta, idCautat);
+		}
 
-int determinaNumarNoduri(/*arborele de masini*/);
+		if (radacina->info.id > idCautat)
+		{
+			return getMasinaByID(radacina->stanga, idCautat);
+		}
+	}
+	else
+	{
+		Masina m;
+		m.id = -1;
+		return m;
+	}
+}
 
-float calculeazaPretTotal(/*arbore de masini*/);
+int determinaNumarNoduri(NodArbore* radacina)
+{
+	if (radacina)
+	{
+		return determinaNumarNoduri(radacina->stanga) + determinaNumarNoduri(radacina->dreapta) + 1;
+	}
+	return 0;
+}
 
-float calculeazaPretulMasinilorUnuiSofer(/*arbore de masini*/ const char* numeSofer);
+float calculeazaPretTotal(NodArbore* radacina)
+{
+	if (radacina) {
+		return calculeazaPretTotal(radacina->stanga) + calculeazaPretTotal(radacina->dreapta) + radacina->info.pret;
+	}
+	return 0;
+}
+		
+float calculeazaPretulMasinilorUnuiSofer(NodArbore* radacina, const char* numeSofer) {
+		
+	if (radacina) {
+		float suma = calculeazaPretulMasinilorUnuiSofer(radacina->stanga, numeSofer) + calculeazaPretulMasinilorUnuiSofer(radacina->dreapta, numeSofer);
+		if (strcmp(radacina->info.numeSofer, numeSofer) == 0) {
+			return suma + radacina->info.pret;
+		}
+		else {
+			return suma;
+		}
+	}
+	else {
+		return 0;
+	}
+	return 0;
+}
 
 int main() {
 
