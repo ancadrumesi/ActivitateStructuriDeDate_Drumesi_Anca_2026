@@ -6,7 +6,10 @@
 typedef struct StructuraStudent Student;
 struct Student
 {
-
+	int id;
+	char* nume;
+	int varsta;
+	float medie;
 };
 
 
