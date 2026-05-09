@@ -65,12 +65,108 @@ void rotireStanga(NodArbore** radacina)
 	(*radacina) = aux;
 }
 
+void rotireDreapta(NodArbore** radacina)
+{
+	NodArbore* aux = (*radacina)->stanga;
+	(*radacina)->stanga = aux -> dreapta;
+	aux->dreapta = (*radacina);
+	(*radacina) = aux;
+}
+
+int verificareEchilibru(NodArbore* radacina)
+{
+	return calculeazaInaltimeArbore(radacina->stanga) - calculeazaInaltimeArbore(radacina->dreapta);
+}
+
+void adaugaStudentInArboreEchilibrat(NodArbore** radacina, Student studentNou)
+{
+	if ((*radacina) != NULL)
+	{
+		if (studentNou.id > (*radacina)->info.id)
+		{
+			adaugaStudentInArboreEchilibrat(&(*radacina)->dreapta, studentNou);
+		}
+		else
+		{
+			adaugaStudentInArboreEchilibrat(&(*radacina)->stanga, studentNou);
+		}
+
+		int factorEchilibru = verificareEchilibru(*radacina);
+		if (factorEchilibru == -2)
+		{
+			//dezechilibru in dreapta 
+			if (verificareEchilibru((*radacina)->dreapta) == -1)
+			{
+				rotireStanga(&(*radacina));
+			}
+			else
+			{
+				rotireDreapta(&(*radacina)->dreapta);
+				rotireStanga(&(*radacina));
+			}
+		}
+		if (factorEchilibru == 2)
+		{
+			//dezechilibru in stanga 
+			if (verificareEchilibru((*radacina)->stanga) == -1)
+			{
+				rotireStanga(&(*radacina)->stanga);
+			}
+			rotireDreapta(&(*radacina));
+		}
+	}
+	else
+	{
+		NodArbore* nodNou = (NodArbore*)malloc(sizeof(NodArbore));
+		nodNou->stanga = NULL;
+		nodNou->dreapta = NULL;
+		nodNou->info = studentNou;
+		(*radacina) = nodNou;
+	}
+}
+
+NodArbore* citireArboreDeStudentiDinFisier(const char* numeFisier)
+{
+	NodArbore* radacina = NULL;
+	FILE* file = fopen(numeFisier, "r");
+	if (file)
+	{
+		while (!feof(file))
+		{
+			adaugaStudentInArboreEchilibrat(&radacina, citireStudentDinFisier(file));
+		}
+	}
+	fclose(file);
+	return radacina;
+}
+
+void afisareStudentiDinArbore(NodArbore* radacina)
+{
+	if (radacina)
+	{
+		afisareStudent(radacina->info);
+		afisareStudentiDinArbore(radacina->stanga);
+		afisareStudentiDinArbore(radacina->dreapta);
+	}
+}
+
+void dezalocareArboreDeStudenti(NodArbore** radacina)
+{
+	if (*radacina)
+	{
+		dezalocareArboreDeStudenti(&(*radacina)->stanga);
+		dezalocareArboreDeStudenti(&(*radacina)->dreapta);
+		free((*radacina)->info.nume);
+		*radacina = NULL;
+	}
+}
 
 
 int main()
 {
-
-
+	NodArbore* radacina = citireArboreDeStudentiDinFisier("studenti.txt");
+	afisareStudentiDinArbore(radacina);
+	dezalocareArboreDeStudenti(&radacina);
 
 	return 0;
 
