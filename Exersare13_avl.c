@@ -161,12 +161,64 @@ void dezalocareArboreDeStudenti(NodArbore** radacina)
 	}
 }
 
+Student getStudentById(NodArbore* radacina, int idCautat)
+{
+	if (radacina)
+	{
+		if (radacina->info.id == idCautat)
+		{
+			Student s = radacina->info;
+			s.nume = (char*)malloc(strlen(radacina->info.nume) + 1);
+			strcpy(s.nume, radacina->info.nume);
+			return s;
+		}
+
+		if (radacina->info.id < idCautat)
+		{
+			return getStudentById(radacina->dreapta, idCautat);
+		}
+
+		if (radacina->info.id > idCautat)
+		{
+			return getStudentById(radacina->stanga, idCautat);
+		}
+	}
+	else
+	{
+		Student s;
+		s.id = -1;
+		return s;
+	}
+}
+
+int determinaNumarNoduri(NodArbore* radacina)
+{
+	if (radacina)
+	{
+		return determinaNumarNoduri(radacina->stanga) + determinaNumarNoduri(radacina->dreapta) + 1;
+
+	}
+	return 0;
+}
+
+float calculeazaMedieTotala(NodArbore* radacina)
+{
+	if (radacina)
+	{
+		return (calculeazaMedieTotala(radacina->stanga) + calculeazaMedieTotala(radacina->dreapta) + radacina->info.medie)/determinaNumarNoduri(radacina);
+	}
+
+}
 
 int main()
 {
 	NodArbore* radacina = citireArboreDeStudentiDinFisier("studenti.txt");
 	afisareStudentiDinArbore(radacina);
 	dezalocareArboreDeStudenti(&radacina);
+
+	printf("Studentul cu id-ul %d este: ", getStudentById(radacina, 1));
+	printf("Numarul de noduri din arbore este: ", determinaNumarNoduri(radacina));
+	printf("Media totala a studentilor este: ", calculeazaMedieTotala(radacina));
 
 	return 0;
 
