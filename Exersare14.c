@@ -22,7 +22,7 @@ struct Heap
 
 Florarie citireFlorarieDinFisier(FILE* file)
 {
-	char buffer[50];
+	char buffer[100];
 	char sep[3] = ",\n";
 	fgets(buffer, 100, file);
 	char* aux;
@@ -39,10 +39,10 @@ Florarie citireFlorarieDinFisier(FILE* file)
 
 void afisareFloare(Florarie floare)
 {
-	printf("Id: %d", floare.id);
-	printf("Tip: %s", floare.tip);
-	printf("Pret: %.2f", floare.pret);
-	printf("Cantitate: %d", floare.cantitate);
+	printf("Id: %d\n", floare.id);
+	printf("Tip: %s\n", floare.tip);
+	printf("Pret: %.2f\n", floare.pret);
+	printf("Cantitate: %d\n", floare.cantitate);
 }
 
 Heap initializareHeap(int lungime)
@@ -138,8 +138,9 @@ void dezalocareHeap(Heap* heap)
 {
 	for (int i = 0; i < heap->lungime; i++)
 	{
-		free(heap->vector[i].tip);
-	}
+		if (heap->vector[i].tip)
+			free(heap->vector[i].tip);
+	}	
 	free(heap->vector);
 	heap->vector = NULL;
 	heap->nrElementeVizibile = 0;
