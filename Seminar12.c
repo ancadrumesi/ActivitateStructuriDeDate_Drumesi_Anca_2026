@@ -59,7 +59,7 @@ struct NodPrincipal
 {
 	Masina info;
 	NodPrincipal* next;
-	NodPrincipal* vecini;
+	NodSecundar* vecini;
 };
 
 struct NodSecundar
