@@ -138,8 +138,8 @@ void inserareMuchie(NodPrincipal* listaPrincipala, int idStart, int idStop) {
 		NodPrincipal* nodStop = cautaNodDupaID(listaPrincipala, idStart);
 		if (nodStart && nodStop)
 		{
-			inserareListaSecundaraLaInceput(&(nodStart)->vecini, nodStop);
-			inserareListaSecundaraLaInceput(&(nodStop)->vecini, nodStart);
+			inserareListaSecundaraLaInceput(&nodStart->vecini, nodStop);
+			inserareListaSecundaraLaInceput(&nodStop->vecini, nodStart);
 		}
 	}
 }
