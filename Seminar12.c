@@ -172,6 +172,17 @@ void citireMuchiiDinFisier(NodPrincipal* listaPrincipala, const char* numeFisier
 	fclose(file);
 }
 
+void afisareLista(NodPrincipal* graf, int id)
+{
+	NodPrincipal* nod = cautaNodDupaID(graf, id);
+	NodSecundar* cap = nod->vecini;
+	while(cap)
+	{
+		afisareMasina(cap->info->info);
+		cap = cap->next;
+	}
+}
+
 void dezalocareNoduriGraf(void* listaPrincipala) {
 	//sunt dezalocate toate masinile din graf 
 	//si toate nodurile celor doua liste
@@ -181,6 +192,8 @@ int main() {
 
 	NodPrincipal* graf = citireNoduriMasiniDinFisier("Masini.txt");
 	citireMuchiiDinFisier(graf, "muchii.txt");
+
+	afisareLista(graf, 10);
 
 	return 0;
 }
