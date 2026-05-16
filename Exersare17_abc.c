@@ -149,24 +149,27 @@ Seriale getSerialByID(Nod* radacina, int idCautat)
 	}
 }
 
-//int determinaNumarNoduri(Nod* radacina) {
-//	if (radacina) {
-//		return determinaNumarNoduri(radacina->stanga) + determinaNumarNoduri(radacina->dreapta) + 1;
-//	}
-//	return 0;
-//}
-//
-//int calculeazaInaltimeArbore(Nod* radacina) {
-//	//calculeaza inaltimea arborelui care este data de 
-//	//lungimea maxima de la radacina pana la cel mai indepartat nod frunza
-//	if (radacina) {
-//		int inaltStg = calculeazaInaltimeArbore(radacina->stanga);
-//		int inaltDrp = calculeazaInaltimeArbore(radacina->dreapta);
-//		return inaltStg > inaltDrp ? inaltStg + 1 : inaltDrp + 1;
-//
-//	}
-//	return 0;
-//}
+int determinaNumarNoduri(Nod* radacina)
+{
+	if (radacina)
+	{
+		return determinaNumarNoduri(radacina->stanga) + determinaNumarNoduri(radacina->dreapta) + 1;
+	}
+	return 0;
+}
+
+int calculeazaInaltimeArbore(Nod* radacina)
+{
+	if (radacina)
+	{
+		int inaltimeStanga = calculeazaInaltimeArbore(radacina->stanga);
+		int inaltimeDreapta = calculeazaInaltimeArbore(radacina->dreapta);
+		return inaltimeStanga > inaltimeDreapta ? inaltimeStanga + 1 : inaltimeDreapta + 1;
+	}
+	return 0;
+}
+
+
 
 int main()
 {
@@ -181,6 +184,9 @@ int main()
 	}
 
 	afisareSerial(getSerialByID(radacina, 5));
+
+	printf("numar noduri: %d\n", determinaNumarNoduri(radacina));
+	printf("inaltime arbore: %d\n", calculeazaInaltimeArbore(radacina));
 
 	dezalocareArboreDeSeriale(&radacina);
 	printf("\nSfarsit program. Apasa o tasta...");
