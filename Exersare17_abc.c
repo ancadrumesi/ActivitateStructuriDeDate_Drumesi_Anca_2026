@@ -25,17 +25,17 @@ Seriale citireSerialDinFisier(FILE* file)
 {
 	char buffer[100];
 	char sep[3] = ",\n";
-	fgets(buffer, 100, sep);
+	fgets(buffer, 100, file);
 	char* aux;
 	Seriale s;
 	aux = strtok(buffer, sep);
 	s.id = atoi(aux);
 	s.nrSezoane = atoi(strtok(NULL, sep));
 	aux = strtok(NULL, sep);
-	s.numeSerial = malloc(strlen(aux) + 1);
+	s.numeSerial = (char*)malloc(strlen(aux) + 1);
 	strcpy_s(s.numeSerial, strlen(aux) + 1, aux);
 	aux = strtok(NULL, sep);
-	s.personaj = malloc(strlen(aux) + 1);
+	s.personaj = (char*)malloc(strlen(aux) + 1);
 	strcpy_s(s.personaj, strlen(aux) + 1, aux);
 	s.rating = atof(strtok(NULL, sep));
 	return s;
@@ -43,11 +43,11 @@ Seriale citireSerialDinFisier(FILE* file)
 
 void afisareSerial(Seriale serial)
 {
-	printf("Id: %d", serial.id);
-	printf("Numar sezoane: %d", serial.nrSezoane);
-	printf("Nume serial: %s", serial.numeSerial);
-	printf("Personaj: %s", serial.personaj);
-	printf("Rating: %.2f", serial.rating);
+	printf("Id: %d\n", serial.id);
+	printf("Numar sezoane: %d\n", serial.nrSezoane);
+	printf("Nume serial: %s\n", serial.numeSerial);
+	printf("Personaj: %s\n", serial.personaj);
+	printf("Rating: %.2f\n", serial.rating);
 }
 
 void inserareSerialInArbore(Nod** radacina, Seriale serialNou)
@@ -121,8 +121,18 @@ void dezalocareArboreDeSeriale(Nod** radacina)
 
 int main()
 {
+	printf("Sper ca merge!\n");
 	Nod* radacina = citireArboreDeSerialeDinFisier("seriale.txt");
-	afisareSerialeDinArborePreordine(radacina);
+	if (radacina == NULL) {
+		printf("Eroare: Arborele este NULL. Verifica fisierul!\n");
+	}
+	else {
+		printf("Arborele a fost incarcat. Incepem afisarea:\n");
+		afisareSerialeDinArboreInordine(radacina);
+	}
+
+	dezalocareArboreDeSeriale(&radacina);
+	printf("\nSfarsit program. Apasa o tasta...");
 
 	return 0;
 }
