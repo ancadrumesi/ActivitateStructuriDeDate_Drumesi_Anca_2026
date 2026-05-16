@@ -119,6 +119,55 @@ void dezalocareArboreDeSeriale(Nod** radacina)
 	}
 }
 
+Seriale getSerialByID(Nod* radacina, int idCautat)
+{
+	if (radacina)
+	{
+		if (radacina->info.id == idCautat)
+		{
+			Seriale s = radacina->info;
+			s.numeSerial = (char*)malloc(strlen(radacina->info.numeSerial) + 1);
+			strcpy(s.numeSerial, radacina->info.numeSerial);
+			s.personaj = (char*)malloc(strlen(radacina->info.personaj) + 1);
+			strcpy(s.personaj, radacina->info.personaj);
+			return s;
+		}
+		if (radacina->info.id < idCautat)
+		{
+			return getSerialByID(radacina->dreapta, idCautat);
+		}
+		if (radacina->info.id > idCautat)
+		{
+			return getSerialByID(radacina->stanga, idCautat);
+		}
+	}
+	else
+	{
+		Seriale s;
+		s.id = -1;
+		return s;
+	}
+}
+
+//int determinaNumarNoduri(Nod* radacina) {
+//	if (radacina) {
+//		return determinaNumarNoduri(radacina->stanga) + determinaNumarNoduri(radacina->dreapta) + 1;
+//	}
+//	return 0;
+//}
+//
+//int calculeazaInaltimeArbore(Nod* radacina) {
+//	//calculeaza inaltimea arborelui care este data de 
+//	//lungimea maxima de la radacina pana la cel mai indepartat nod frunza
+//	if (radacina) {
+//		int inaltStg = calculeazaInaltimeArbore(radacina->stanga);
+//		int inaltDrp = calculeazaInaltimeArbore(radacina->dreapta);
+//		return inaltStg > inaltDrp ? inaltStg + 1 : inaltDrp + 1;
+//
+//	}
+//	return 0;
+//}
+
 int main()
 {
 	printf("Sper ca merge!\n");
@@ -130,6 +179,8 @@ int main()
 		printf("Arborele a fost incarcat. Incepem afisarea:\n");
 		afisareSerialeDinArboreInordine(radacina);
 	}
+
+	afisareSerial(getSerialByID(radacina, 5));
 
 	dezalocareArboreDeSeriale(&radacina);
 	printf("\nSfarsit program. Apasa o tasta...");
