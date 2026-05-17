@@ -57,6 +57,51 @@
     <ClCompile Include="Exersare6_Dubla.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Exersare7_Dubla.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exersare8_Simpla.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exersare9_Simpla.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exersare10_clip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Seminar10_ABC.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exersare11_arbore.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Seminar11_AVL.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exersare12_avl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exersare13_avl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exersare14.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exersare15_heap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Seminar12.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exersare_16_graf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exersare17_abc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exersare18_avl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Masini.txt">
@@ -66,6 +111,24 @@
       <Filter>Source Files</Filter>
     </Text>
     <Text Include="Televizoare.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Florarie.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="masini_arbore.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="florarie_arbore.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="studenti.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="muchii.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="seriale.txt">
       <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>

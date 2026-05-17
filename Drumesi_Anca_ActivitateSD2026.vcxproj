@@ -124,11 +124,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Exersare1.c" />
+    <ClCompile Include="Exersare10_clip.c" />
+    <ClCompile Include="Exersare11_arbore.c" />
+    <ClCompile Include="Exersare12_avl.c" />
+    <ClCompile Include="Exersare13_avl.c" />
+    <ClCompile Include="Exersare14.c" />
+    <ClCompile Include="Exersare15_heap.c" />
+    <ClCompile Include="Exersare17_abc.c" />
+    <ClCompile Include="Exersare18_avl.c" />
     <ClCompile Include="Exersare2.c" />
     <ClCompile Include="Exersare3.c" />
     <ClCompile Include="Exersare4.c" />
     <ClCompile Include="Exersare5_coada.c" />
     <ClCompile Include="Exersare6_Dubla.c" />
+    <ClCompile Include="Exersare7_Dubla.c" />
+    <ClCompile Include="Exersare8_Simpla.c" />
+    <ClCompile Include="Exersare9_Simpla.c" />
+    <ClCompile Include="Exersare_16_graf.c" />
     <ClCompile Include="Seminar01.c" />
     <ClCompile Include="Seminar02.c" />
     <ClCompile Include="Seminar04.c" />
@@ -136,11 +148,20 @@
     <ClCompile Include="Seminar06.c" />
     <ClCompile Include="Seminar07.c" />
     <ClCompile Include="Seminar08.c" />
+    <ClCompile Include="Seminar10_ABC.c" />
+    <ClCompile Include="Seminar11_AVL.c" />
+    <ClCompile Include="Seminar12.c" />
     <ClCompile Include="Seminar3.c" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Carti.txt" />
+    <Text Include="Florarie.txt" />
+    <Text Include="florarie_arbore.txt" />
     <Text Include="Masini.txt" />
+    <Text Include="masini_arbore.txt" />
+    <Text Include="muchii.txt" />
+    <Text Include="seriale.txt" />
+    <Text Include="studenti.txt" />
     <Text Include="Televizoare.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

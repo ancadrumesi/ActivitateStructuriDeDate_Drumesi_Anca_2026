@@ -62,6 +62,27 @@ int calculeazaInaltimeArbore(NodArbore* radacina)
 	return 1 + max(inaltimeDreapta, inaltimeStanga);
 }
 
+void rotireStanga(NodArbore** radacina)
+{
+	NodArbore* aux = (*radacina)->dreapta;
+	(*radacina)->dreapta = aux->stanga;
+	aux->stanga = (*radacina);
+	(*radacina) = aux;
+}
+
+void rotireDreapta(NodArbore** radacina)
+{
+	NodArbore* aux = (*radacina)->stanga;
+	(*radacina)->stanga = aux->dreapta;
+	aux->dreapta = (*radacina);
+	(*radacina) = aux;
+}
+
+int verificareEchilibru(NodArbore* radacina)
+{
+	return calculeazaInaltimeArbore(radacina->stanga) - calculeazaInaltimeArbore(radacina->dreapta);
+}
+
 
 
 int main()
