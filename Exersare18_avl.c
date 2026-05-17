@@ -83,11 +83,143 @@ int verificareEchilibru(NodArbore* radacina)
 	return calculeazaInaltimeArbore(radacina->stanga) - calculeazaInaltimeArbore(radacina->dreapta);
 }
 
+void adaugaSerialInArboreEchilibrat(NodArbore** radacina, Serial serialNou)
+{
+	if ((*radacina) != NULL)
+	{
+		if ((*radacina)->info.id < serialNou.id)
+		{
+			adaugaSerialInArboreEchilibrat(&(*radacina)->dreapta, serialNou);
+		}
+		else
+		{
+			adaugaSerialInArboreEchilibrat(&(*radacina)->stanga, serialNou);
+		}
 
+		int factorEchilibru = verificareEchilibru(*radacina);
+		if (factorEchilibru == -2)
+		{
+			//dezechilibru in dreapta
+			if (verificareEchilibru((*radacina)->dreapta) == -1)
+			{
+				rotireStanga(&(*radacina));
+			}
+			else
+			{
+				rotireDreapta(&(*radacina)->dreapta);
+				rotireStanga(&(*radacina));
+			}
+		}
+		if (factorEchilibru == 2)
+		{
+			//dezechilibru in stanga
+			if (verificareEchilibru((*radacina)->stanga) == -1)
+			{
+				rotireStanga(&(*radacina)->stanga);
+			}
+			rotireDreapta(&(*radacina));
+		}
+	}
+	else
+	{
+		NodArbore* nodNou = (NodArbore*)malloc(sizeof(NodArbore));
+		nodNou->stanga = NULL;
+		nodNou->dreapta = NULL;
+		nodNou->info = serialNou;
+		(*radacina) = nodNou;
+	}
+}
+
+NodArbore* citireArboreDeSerialeDinFisier(const char* numeFisier)
+{
+	NodArbore* radacina = NULL;
+	FILE* file = fopen(numeFisier, "r");
+	if (file)
+	{
+		while (!feof(file))
+		{
+			adaugaSerialInArboreEchilibrat(&radacina, citireSerialDinFisier(file));
+		}
+	}
+	fclose(file);
+	return radacina;
+}
+
+void afisareSerialeDinArbore(NodArbore* radacina)
+{
+	if (radacina)
+	{
+		afisareSerial(radacina->info);
+		afisareSerialeDinArbore(radacina->stanga);
+		afisareSerialeDinArbore(radacina->dreapta);
+	}
+}
+
+void dezalocare(NodArbore** radacina)
+{
+	if (*radacina)
+	{
+		dezalocare(&(*radacina)->stanga);
+		dezalocare(&(*radacina)->dreapta);
+		free((*radacina)->info.numeSerial);
+		free((*radacina)->info.personaj);
+		*radacina = NULL;
+	}
+}
+
+Serial getSerialById(NodArbore* radacina, int idCautat)
+{
+	if (radacina)
+	{
+		if (radacina->info.id == idCautat)
+		{
+			Serial s = radacina->info;
+			s.numeSerial = (char*)malloc(strlen(radacina->info.numeSerial) + 1);
+			strcpy(s.numeSerial, radacina->info.numeSerial);
+			return s;
+		}
+		if (radacina->info.id < idCautat)
+		{
+			return getSerialById(radacina->dreapta, idCautat);
+		}
+		if (radacina->info.id > idCautat)
+		{
+			return getSerialById(radacina->stanga, idCautat);
+		}
+	}
+	else
+	{
+		Serial s;
+		s.id = -1;
+		return s;
+	}
+}
+
+int determinaNumarNoduri(NodArbore* radacina)
+{
+	if (radacina)
+	{
+		return determinaNumarNoduri(radacina->stanga) + determinaNumarNoduri(radacina->dreapta) + 1;
+	}
+	return 0;
+}
+
+float calculeazaRatingTotal(NodArbore* radacina)
+{
+	if (radacina)
+	{
+		return calculeazaRatingTotal(radacina->stanga) + calculeazaRatingTotal(radacina->dreapta) + (radacina->info.rating) / determinaNumarNoduri(radacina);
+	}
+}
 
 int main()
 {
-
+	NodArbore* radacina = citireArboreDeSerialeDinFisier("seriale.txt");
+	afisareSerialeDinArbore(radacina);
+	printf("Serialul cu id-ul %d este: ", getSerialById(radacina, 5));
+	printf("Numarul de noduri din arbore este: ", determinaNumarNoduri(radacina));
+	printf("Rating total pentru seriale: ", calculeazaRatingTotal(radacina));
+	dezalocare(&radacina);
 
 	return 0;
 }
