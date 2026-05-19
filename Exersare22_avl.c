@@ -155,6 +155,44 @@ void afisareCaseDinArbore(NodArbore* radacina)
 	}
 }
 
+Casa getCasaById(NodArbore* radacina, int idCautat)
+{
+	if (radacina)
+	{
+		if (radacina->info.id == idCautat)
+		{
+			Casa c = radacina->info;
+			c.tip = (char*)malloc(strlen(radacina->info.tip) + 1);
+			strcpy(c.tip, radacina->info.tip);
+			return c;
+		}
+
+		if (radacina->info.id < idCautat)
+		{
+			return getCasaById(radacina->dreapta, idCautat);
+		}
+
+		if (radacina->info.id > idCautat)
+		{
+			return getCasaById(radacina->stanga, idCautat);
+		}
+	}
+	else
+	{
+		Casa c;
+		c.id = -1;
+		return c;
+	}
+}
+
+int determinaNumarNoduri(NodArbore* radacina)
+{
+	if(radacina)
+		return determinaNumarNoduri(radacina->stanga) + determinaNumarNoduri(radacina->dreapta) + 1;
+
+	return 0;
+}
+
 void dezalocare(NodArbore** radacina)
 {
 	if (*radacina)
@@ -167,11 +205,21 @@ void dezalocare(NodArbore** radacina)
 	}
 }
 
+float calculeazaDimensiuneTotala(NodArbore* radacina)
+{
+	if (radacina)
+	{
+		return calculeazaInaltimeArbore(radacina->stanga) + calculeazaDimensiuneTotala(radacina->dreapta) + radacina->info.dimensiune;
+	}
+}
+
 int main()
 {
 	NodArbore* radacina = citireArboreDeCaseDinFisier("casa.txt");
 	afisareCaseDinArbore(radacina);
 
+	printf("Numarul de noduri este: %d\n", determinaNumarNoduri(radacina));
+	printf("Dimesniunea totala este: %.2f\n", calculeazaDimensiuneTotala(radacina));
 
 	dezalocare(&radacina);
 	printf("Dezalocarea a avut loc!");
