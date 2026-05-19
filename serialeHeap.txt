@@ -1,0 +1,5 @@
+1,1,Off Campus,Garret,5.0
+2,2,Off Campus,Hannah,4.0
+3,3,Gossip Girl,Chuck,2.8
+4,2,Bridgerton,Daphne,3.5
+5,1,Gossip Girl,Blair,5.0
