@@ -95,6 +95,31 @@ void afisarePilotiDinArboreInordine(Nod* radacina)
 	}
 }
 
+Pilot getPilotById(Nod* radacina, int idCautat)
+{
+	if (radacina)
+	{
+		if (radacina->info.id = idCautat)
+		{
+			Pilot p = radacina -> info;
+			p.echipa = (char*)malloc(strlen(radacina->info.echipa) + 1);
+			strcpy(p.echipa, radacina->info.echipa);
+			return p;
+			
+			if (radacina->info.id < idCautat)
+				return getPilotById(radacina->dreapta, idCautat);
+			if (radacina->info.id > idCautat)
+				return getPilotById(radacina->stanga, idCautat);
+		}
+	}
+	else
+	{
+		Pilot p;
+		p.id = -1;
+		return p;
+	}
+}
+
 void dezalocareArbore(Nod** radacina)
 {
 	if (*radacina)
@@ -111,7 +136,7 @@ int main()
 {
 	Nod* radacina = citireArboreDePilotiDinFisier("pilot.txt");
 	afisarePilotiDinArboreInordine(radacina);
-
+	afisarePilot(getPilotById(radacina, 1));
 	dezalocareArbore(&radacina);
 	printf("Arborele a fost dezalocat!");
 
