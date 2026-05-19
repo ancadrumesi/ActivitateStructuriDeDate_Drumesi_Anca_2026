@@ -22,12 +22,98 @@ struct Nod
 
 Pilot citirePilotDinFisier(FILE* file)
 {
-
+	char buffer[100];
+	char sep[3] = ",\n";
+	fgets(buffer, 100, file);
+	char* aux;
+	Pilot p;
+	aux = strtok(buffer, sep);
+	p.id = atoi(aux);
+	aux = strtok(NULL, sep);
+	p.greutate = atof(aux);
+	aux = strtok(NULL, sep);
+	if (aux)
+	{
+		p.echipa = (char*)malloc(strlen(aux) + 1);
+		strcpy(p.echipa, aux);
+	}
+	aux = strtok(NULL, sep);
+	p.nrMembri = atoi(aux);
+	return p;
 }
 
+void afisarePilot(Pilot pilot)
+{
+	printf("Id: %d\n", pilot.id);
+	printf("Greutate: %.2f\n", pilot.greutate);
+	printf("Echipa: %s\n", pilot.echipa);
+	printf("Numar membri: %d\n", pilot.nrMembri);
+}
+
+void inserarePilotInArbore(Nod** radacina, Pilot pilotNou)
+{
+	if (*radacina)
+	{
+		if ((*radacina)->info.id > pilotNou.id)
+		{
+			inserarePilotInArbore(&(*radacina)->stanga, pilotNou);
+		}
+		if ((*radacina)->info.id < pilotNou.id)
+		{
+			inserarePilotInArbore(&(*radacina)->dreapta, pilotNou);
+		}
+	}
+	else
+	{
+		Nod* nodNou = (Nod*)malloc(sizeof(Nod));
+		nodNou->stanga = NULL;
+		nodNou->dreapta = NULL;
+		nodNou->info = pilotNou;
+		*radacina = nodNou;
+	}
+}
+
+Nod* citireArboreDePilotiDinFisier(const char* numeFisier)
+{
+	FILE* file = fopen(numeFisier, "r");
+	Nod* radacina = NULL;
+	while (!feof(file))
+	{
+		inserarePilotInArbore(&radacina, citirePilotDinFisier(file));
+	}
+	fclose(file);
+	return radacina;
+}
+
+void afisarePilotiDinArboreInordine(Nod* radacina)
+{
+	if (radacina)
+	{
+		afisarePilotiDinArboreInordine(radacina->stanga);
+		afisarePilot(radacina->info);
+		afisarePilotiDinArboreInordine(radacina->dreapta);
+	}
+}
+
+void dezalocareArbore(Nod** radacina)
+{
+	if (*radacina)
+	{
+		dezalocareArbore(&(*radacina)->stanga);
+		dezalocareArbore(&(*radacina)->dreapta);
+		free((*radacina)->info.echipa);
+		free(*radacina);
+		*radacina = NULL;
+	}
+}
 
 int main()
 {
+	Nod* radacina = citireArboreDePilotiDinFisier("pilot.txt");
+	afisarePilotiDinArboreInordine(radacina);
+
+	dezalocareArbore(&radacina);
+	printf("Arborele a fost dezalocat!");
 
 	return 0;
 }
