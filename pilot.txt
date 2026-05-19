@@ -1,0 +1,7 @@
+1,50.5,Pisicile Salbatice,3
+2,44,ND,2
+3,33.7,SiSC,100
+4,23.9,SQL Girls,8
+5,100,NASA,5
+6,230.9,Deftones,4
+7,133.8,ANOSR,5
