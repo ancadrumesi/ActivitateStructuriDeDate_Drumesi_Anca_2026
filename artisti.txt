@@ -1,0 +1,6 @@
+1,Drake,12,4.5
+2,Taylor Swift,22,8.9
+3,Lady Gaga,30,6.7
+4,Kendrick Lamar,9,10.8
+5,Frank Sinatra,3,7.9
+6,J Cole,5,2.1
